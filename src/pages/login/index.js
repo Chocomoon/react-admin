@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import "./index.css";
-// 组件
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actionCreators as loginActionCreators } from './store';
+import decode from 'jwt-decode';
 
 class Login extends Component {
     constructor() {
@@ -10,19 +13,27 @@ class Login extends Component {
         this.state = {};
     };
 
-    onFinish = (values) => {
-        console.log('Received values of form: ', values);
+    onFinish = async (values) => {
+        // console.log('Received values of form: ', values);
+        const { data } = await this.props.loginFn.loginAc(values);
+        // this.props.history.push('/decide');
+        if (data.status === 0) {
+            // 1. 同步用户状态和用户信息到 Redux
+            this.props.loginFn.syncInfoAc(decode(data.token));
+        }
+        // console.log(data);
     };
 
     render() {
         return (
             <div className="form-wrap">
-                <div>
+                <div className="form-content">
                     <div className="form-header">
                         <div className="column">华浪科技</div>
                     </div>
                     <div className="form-content">
-                        <Form name="normal_login" className="login-form" initialValues={{ remember: true, }} onFinish={() => this.onFinish}>
+                        <Form name="normal_login" className="login-form" initialValues={{ remember: true, }} onFinish={this.onFinish}>
+                            {/* <Form name="normal_login" className="login-form" initialValues={{ remember: true, }} onFinish={onFinish}> */}
                             <Form.Item name="username" rules={[{ required: true, message: '请输入用户名！', },]}>
                                 <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
                             </Form.Item>
@@ -49,4 +60,17 @@ class Login extends Component {
     }
 }
 
-export default Login
+const mapStateToProps = state => {
+    return {
+        loginData: state.login
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        loginFn: bindActionCreators(loginActionCreators, dispatch)
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

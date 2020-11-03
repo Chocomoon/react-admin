@@ -7,16 +7,22 @@ body {
 .form-wrap {
     background-color: #fff;
     margin: 0 auto;
-    width: 300px;
+    width: 400px;
     height: 300px;
     display: flex;
     align-items: center;
+}
+
+.form-content {
+    width: 80%;
+    margin: 0 auto;
 }
 
 .form-header {
     height: 56px;
     width: 300px;
     line-height: 56px;
+    margin: 0 auto;
 }
 
 .form-header .column {
