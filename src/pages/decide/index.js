@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from '../../utils/request';
 import "../../mock/mock.js";
-import { logout } from '../login/store/actionCreators';
+// import { logout } from '../login/store/actionCreators';
+import { actionCreators as decideActionCreators } from './store';
 import { Image } from 'antd';
+import { Button } from 'antd';
 import { UnControlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/lib/codemirror.js';
@@ -22,15 +25,16 @@ class Decide extends Component {
     constructor() {
         super();
         this.state = {
-            userinfo: {}
+            userinfo: {},
+            formtext: {}
         };
     };
 
     async componentDidMount() {
-        // const { data } = await axios.post('/api/decide');
-        // this.setState({
-        //     username: data.username
-        // });
+        const { data } = await axios.post('/api/decide');
+        this.setState({
+            username: data.username
+        });
         // const { jsonData } = await axios.get('http://headers.jsontest.com/');
         // this.setState({
         //     jsonData
@@ -45,8 +49,14 @@ class Decide extends Component {
             })
     }
 
-    handleClick = () => {
-        console.log(this.state.userinfo)
+    handleSubmit = async () => {
+        // console.log(JSON.parse(this.state.formtext));
+        const { data } = await this.props.decideFn.decideAc(JSON.parse(this.state.formtext));
+        console.log(data);
+    }
+
+    handleLogout = () => {
+        this.props.decideFn.logout();
     }
 
     render() {
@@ -62,14 +72,24 @@ class Decide extends Component {
             // </div>
             <div className='wrap'>
                 <div className='left'>
-                    <Image
-                        width={200}
+                    <Image alt="form"
+                        className="form-photo"
                         src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
                     />
+                    <div>
+                        {
+                            this.props.loginData.isAuth
+                                ?
+                                <Button type="primary" onClick={this.handleLogout}>{this.state.username}已登录，点击退出</Button>
+                                :
+                                <Button type="primary">点击登录</Button>
+                        }
+                    </div>
                 </div>
+
                 <div className='right'>
                     <CodeMirror
-                        value={JSON.stringify(this.state.userinfo)}
+                        value={JSON.stringify(this.state.userinfo, null, 4)}
                         options={{
                             lineNumbers: true,
                             theme: 'monokai',
@@ -80,8 +100,13 @@ class Decide extends Component {
                             mode: { name: "text/javascript", json: true }
                         }}
                         onChange={(editor, data, value) => {
+                            // console.log("value:", value)
+                            this.setState({
+                                formtext: value
+                            })
                         }}
                     />
+                    <Button type="primary" onClick={this.handleSubmit}>点击提交</Button>
                 </div>
             </div>
         )
@@ -94,4 +119,11 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { logout })(Decide);
+const mapDispatchToProps = dispatch => {
+    return {
+        decideFn: bindActionCreators(decideActionCreators, dispatch),
+    };
+}
+
+// export default connect(mapStateToProps, { logout })(Decide);
+export default connect(mapStateToProps, mapDispatchToProps)(Decide);

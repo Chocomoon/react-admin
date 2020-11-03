@@ -1,13 +1,37 @@
 .wrap {
     width: 100%;
-    background-color: red;
+    height: 100vh;
     position: relative;
 }
 
 .left {
     float: left;
+    width: 50%;
+    height: 100%;
+}
+
+img {
+    height: 100%;
+    width: 100%;
+}
+
+.form-photo {
+    object-fit: cover;
 }
 
 .right {
     float: right;
+    width: 50%;
+    height: 100%;
+}
+
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+}
+
+.CodeMirror-scroll {
+    height: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
 }
