@@ -1,0 +1,13 @@
+.wrap {
+    width: 100%;
+    background-color: red;
+    position: relative;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}

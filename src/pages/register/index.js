@@ -32,26 +32,28 @@ class Register extends Component {
 
     render() {
         return (
-            <div className="form-wrap">
-                <div className="form-content">
-                    <div className="form-header">
-                        <div className="column">华浪科技</div>
-                    </div>
+            <div className="content">
+                <div className="form-wrap">
                     <div className="form-content">
-                        <Form name="normal_login" className="login-form" initialValues={{ remember: true, }} onFinish={this.onFinish}>
-                            <Form.Item name="username" rules={[{ required: true, message: '请输入用户名！', },]}>
-                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-                            </Form.Item>
-                            <Form.Item name="password" rules={[{ required: true, message: '请输入密码！', },]}>
-                                <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
-                            </Form.Item>
+                        <div className="form-header">
+                            <div className="column">华浪科技</div>
+                        </div>
+                        <div className="form-content">
+                            <Form name="normal_login" className="login-form" initialValues={{ remember: true, }} onFinish={this.onFinish}>
+                                <Form.Item name="username" rules={[{ required: true, message: '请输入用户名！', },]}>
+                                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                                </Form.Item>
+                                <Form.Item name="password" rules={[{ required: true, message: '请输入密码！', },]}>
+                                    <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
+                                </Form.Item>
 
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit" className="login-form-button">
-                                    注册
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit" className="login-form-button">
+                                        注册
                                 </Button>
-                            </Form.Item>
-                        </Form>
+                                </Form.Item>
+                            </Form>
+                        </div>
                     </div>
                 </div>
             </div>

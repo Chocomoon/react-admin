@@ -5,6 +5,7 @@ import './App.css';
 import Login from './pages/login/index';
 import Register from './pages/register/index'
 import Decide from './pages/decide/index';
+import Auth from './utils/auth';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,11 +19,11 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route component={Login} exact path="/" />
+          <Route component={Decide} exact path="/" />
           {/* <Route component={Register} exact path="/" /> */}
-          {/* <Route component={Login} path="/login" /> */}
+          <Route component={Login} path="/login" />
           <Route component={Register} path="/register" />
-          <Route component={Decide} path="/decide" />
+          <Route component={Auth(Decide)} path="/decide" />
         </Switch>
       </BrowserRouter>
     )
